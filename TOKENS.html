@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recarga de Tokens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745; /* Color verde */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #218838; /* Color verde más oscuro al pasar el mouse */
+        }
+
+        .error-message {
+            color: red; /* Mensaje de error en rojo */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recarga de Tokens</h1>
+    <form id="token-form">
+        <label for="tokens">Cantidad de Tokens (máximo 99):</label>
+        <input type="number" id="tokens" name="tokens" min="1" max="99" required>
+
+        <br> <!-- Salto de línea entre los campos -->
+
+        <label for="uid">Número de Cuenta (UID):</label>
+        <input type="text" id="uid" name="uid" required>
+
+        <button type="submit">Recargar</button>
+
+        <div class="error-message" id="error-message"></div> <!-- Mensaje de error -->
+    </form>
+
+    <script>
+        document.getElementById('token-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+            const tokens = document.getElementById('tokens').value;
+            const uid = document.getElementById('uid').value;
+
+            // Realiza la solicitud fetch
+            fetch('http://example.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tokens, uid }) // Envía los datos como JSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Éxito:', data);
+                document.getElementById('error-message').textContent = ''; // Limpia el mensaje de error
